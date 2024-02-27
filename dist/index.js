@@ -29014,6 +29014,12 @@ console.log('ref');
 console.log(ref);
 console.log('github.context');
 console.log(github.context);
+console.log('payload');
+console.log(payload);
+console.log('payload.pull_request');
+console.log(payload.pull_request);
+console.log('payload.pull_request.head');
+console.log(payload.pull_request.head);
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
