@@ -4,8 +4,15 @@ import * as github from '@actions/github'
 import { wait } from './wait'
 
 const {
-  repo: { owner, repo }
+  repo: { owner, repo },
+  payload,
+  ref
 } = github.context
+
+console.log('ref')
+console.log(ref)
+console.log('github.context')
+console.log(github.context)
 
 /**
  * The main function for the action.
@@ -18,33 +25,49 @@ export async function run(): Promise<void> {
 
   const octokit = github.getOctokit(token)
 
-  const { data: current_run } = await octokit.rest.actions.getWorkflowRun({
+  let branch
+  if (payload.pull_request) {
+    branch = payload.pull_request.head.ref
+  } else {
+    branch = payload.workflow_run.head_branch
+  }
+
+  console.log('branch')
+  console.log(branch)
+  console.log('ref')
+  console.log(ref)
+  console.log('payload.workflow_run')
+  console.log(payload.workflow_run)
+
+  const {
+    data: { workflow_id }
+  } = await octokit.rest.actions.getWorkflowRun({
     owner,
     repo,
     run_id: Number(process.env.GITHUB_RUN_ID)
   })
-  console.log('current_run')
-  console.log(current_run)
-  const workflow_id = current_run.workflow_id
 
-  const { data } = await octokit.rest.actions.listWorkflowRuns({
+  console.log('workflow_id')
+  console.log(workflow_id)
+
+  const {
+    data: { total_count, workflow_runs }
+  } = await octokit.rest.actions.listWorkflowRuns({
     per_page: 100,
     workflow_id,
+    branch,
     owner,
     repo
   })
 
-  console.log('data.total_count')
-  console.log(data.total_count)
-  console.log('data.workflow_runs')
-  console.log(data.workflow_runs)
+  const runningWorkflowRuns = workflow_runs.filter(
+    run => run.status !== 'completed'
+  )
 
-  console.info('PRINTING...')
-  console.info('workflow_id', workflow_id)
-  console.info(process.env.GITHUB_WORKFLOW!)
-  console.info(process.env.GITHUB_WORKFLOW_REF!)
-  console.info(process.env.GITHUB_WORKFLOW_SHA!)
-  console.info('PRINTED!')
+  console.log('total_count')
+  console.log(total_count)
+  console.log('runningRuns', runningWorkflowRuns.length)
+  console.log(runningWorkflowRuns)
 
   try {
     // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
