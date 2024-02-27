@@ -29012,6 +29012,8 @@ const wait_1 = __nccwpck_require__(5259);
 const { repo: { owner, repo }, payload, ref } = github.context;
 console.log('ref');
 console.log(ref);
+console.log('github.context');
+console.log(github.context);
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
