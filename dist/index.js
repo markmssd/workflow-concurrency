@@ -29023,13 +29023,7 @@ async function run() {
     const token = core.getInput('access_token');
     const ms = core.getInput('milliseconds');
     const octokit = github.getOctokit(token);
-    let branch;
-    if (payload.pull_request) {
-        branch = payload.pull_request.head.ref;
-    }
-    else {
-        branch = payload.workflow_run.head_branch;
-    }
+    const branch = ref.replace('refs/heads/', '');
     console.log('branch');
     console.log(branch);
     console.log('ref');
