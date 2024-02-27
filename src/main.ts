@@ -11,8 +11,6 @@ const {
 
 console.log('ref')
 console.log(ref)
-console.log('github.context')
-console.log(github.context)
 
 /**
  * The main function for the action.
@@ -29,10 +27,8 @@ export async function run(): Promise<void> {
 
   console.log('branch')
   console.log(branch)
-  console.log('ref')
-  console.log(ref)
-  console.log('payload.workflow_run')
-  console.log(payload.workflow_run)
+  console.log('process.env.GITHUB_RUN_ID')
+  console.log(process.env.GITHUB_RUN_ID)
 
   const {
     data: { workflow_id }

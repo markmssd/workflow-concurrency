@@ -29012,8 +29012,6 @@ const wait_1 = __nccwpck_require__(5259);
 const { repo: { owner, repo }, payload, ref } = github.context;
 console.log('ref');
 console.log(ref);
-console.log('github.context');
-console.log(github.context);
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
@@ -29026,10 +29024,8 @@ async function run() {
     const branch = ref.replace('refs/heads/', '');
     console.log('branch');
     console.log(branch);
-    console.log('ref');
-    console.log(ref);
-    console.log('payload.workflow_run');
-    console.log(payload.workflow_run);
+    console.log('process.env.GITHUB_RUN_ID');
+    console.log(process.env.GITHUB_RUN_ID);
     const { data: { workflow_id } } = await octokit.rest.actions.getWorkflowRun({
         owner,
         repo,
