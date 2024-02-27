@@ -29009,7 +29009,7 @@ exports.run = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const wait_1 = __nccwpck_require__(5259);
-const { eventName, sha, ref, repo: { owner, repo }, payload } = github.context;
+const { repo: { owner, repo } } = github.context;
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
@@ -29033,7 +29033,9 @@ async function run() {
         owner,
         repo
     });
+    console.log('data.total_count');
     console.log(data.total_count);
+    console.log('data.workflow_runs');
     console.log(data.workflow_runs);
     console.info('PRINTING...');
     console.info('workflow_id', workflow_id);

@@ -2,14 +2,9 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 
 import { wait } from './wait'
-import { GitHub } from '@actions/github/lib/utils'
 
 const {
-  eventName,
-  sha,
-  ref,
-  repo: { owner, repo },
-  payload
+  repo: { owner, repo }
 } = github.context
 
 /**
@@ -39,7 +34,9 @@ export async function run(): Promise<void> {
     repo
   })
 
+  console.log('data.total_count')
   console.log(data.total_count)
+  console.log('data.workflow_runs')
   console.log(data.workflow_runs)
 
   console.info('PRINTING...')
