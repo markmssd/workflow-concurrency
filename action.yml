@@ -19,7 +19,7 @@ inputs:
     default: '1000'
   workflow_id:
     description: 'Optional - A single Workflow ID or a comma separated list of IDs'
-    default: ${{ github.workflow }}
+    default: ${{ github.event.workflow.id }}
     required: false
 
 # Define your outputs here.
