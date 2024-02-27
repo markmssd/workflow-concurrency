@@ -2759,6 +2759,11 @@ const wait_1 = __nccwpck_require__(259);
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 async function run() {
+    console.info('PRINTING...');
+    console.info(process.env.GITHUB_WORKFLOW);
+    console.info(process.env.GITHUB_WORKFLOW_REF);
+    console.info(process.env.GITHUB_WORKFLOW_SHA);
+    console.info('PRINTED!');
     try {
         const ms = core.getInput('milliseconds');
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
