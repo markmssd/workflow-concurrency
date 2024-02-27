@@ -29008,10 +29008,16 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
-const wait_1 = __nccwpck_require__(5259);
 const { repo: { owner, repo }, payload, ref } = github.context;
 console.log('ref');
 console.log(ref);
+// getting branch on pull_request event is different from push
+const getBranch = (context) => {
+    if (context.payload.pull_request) {
+        return context.payload.pull_request.head.ref;
+    }
+    return context.ref.replace('refs/heads/', '');
+};
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
@@ -29019,19 +29025,15 @@ console.log(ref);
 async function run() {
     // parse inputs
     const concurrency = core.getInput('concurrency');
-    const workflow_id_input = core.getInput('workflow_id');
     const token = core.getInput('access_token');
-    const ms = core.getInput('milliseconds');
-    console.log('workflow_id_input');
-    console.log(workflow_id_input);
     console.log('concurrency');
     console.log(concurrency);
     const octokit = github.getOctokit(token);
-    const branch = ref.replace('refs/heads/', '');
+    const branch = getBranch(github.context);
     console.log('branch');
     console.log(branch);
-    console.log('process.env.GITHUB_RUN_ID');
-    console.log(process.env.GITHUB_RUN_ID);
+    console.log('github.context');
+    console.log(github.context);
     const { data: { workflow_id } } = await octokit.rest.actions.getWorkflowRun({
         owner,
         repo,
@@ -29052,12 +29054,6 @@ async function run() {
     console.log('runningRuns', runningWorkflowRuns.length);
     console.log(runningWorkflowRuns);
     try {
-        // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-        core.debug(`Waiting ${ms} milliseconds ...`);
-        // Log the current timestamp, wait, then log the new timestamp
-        core.debug(new Date().toTimeString());
-        await (0, wait_1.wait)(parseInt(ms, 10));
-        core.debug(new Date().toTimeString());
         // Set outputs for other workflow steps to use
         core.setOutput('time', new Date().toTimeString());
     }
@@ -29068,31 +29064,6 @@ async function run() {
     }
 }
 exports.run = run;
-
-
-/***/ }),
-
-/***/ 5259:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.wait = void 0;
-/**
- * Wait for a number of milliseconds.
- * @param milliseconds The number of milliseconds to wait.
- * @returns {Promise<string>} Resolves with 'done!' after the wait is over.
- */
-async function wait(milliseconds) {
-    return new Promise(resolve => {
-        if (isNaN(milliseconds)) {
-            throw new Error('milliseconds not a number');
-        }
-        setTimeout(() => resolve('done!'), milliseconds);
-    });
-}
-exports.wait = wait;
 
 
 /***/ }),
