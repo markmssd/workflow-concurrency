@@ -1,11 +1,11 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Workflow Concurrency'
+description: 'Control the concurrency of your GitHub Workflows Runs'
+author: 'Mark Massoud'
 
 # Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
-  icon: 'heart'
-  color: 'red'
+  icon: 'shuffle'
+  color: 'green'
 
 # Define your inputs here.
 inputs:
