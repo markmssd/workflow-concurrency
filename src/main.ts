@@ -18,8 +18,15 @@ console.log(ref)
  */
 export async function run(): Promise<void> {
   // parse inputs
+  const concurrency: string = core.getInput('concurrency')
+  const workflow_id_input: string = core.getInput('workflow_id')
   const token = core.getInput('access_token')
   const ms: string = core.getInput('milliseconds')
+  console.log('workflow_id_input')
+  console.log(workflow_id_input)
+
+  console.log('concurrency')
+  console.log(concurrency)
 
   const octokit = github.getOctokit(token)
 

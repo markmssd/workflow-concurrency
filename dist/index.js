@@ -29018,8 +29018,14 @@ console.log(ref);
  */
 async function run() {
     // parse inputs
+    const concurrency = core.getInput('concurrency');
+    const workflow_id_input = core.getInput('workflow_id');
     const token = core.getInput('access_token');
     const ms = core.getInput('milliseconds');
+    console.log('workflow_id_input');
+    console.log(workflow_id_input);
+    console.log('concurrency');
+    console.log(concurrency);
     const octokit = github.getOctokit(token);
     const branch = ref.replace('refs/heads/', '');
     console.log('branch');

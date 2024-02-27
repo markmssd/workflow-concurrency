@@ -13,6 +13,10 @@ inputs:
     description: 'Your GitHub Access Token, defaults to: {{ github.token }}'
     default: ${{ github.token }}
     required: false
+  concurrency:
+    description: 'Number of allowed concurrent workflow runs'
+    required: false
+    default: '1'
   milliseconds:
     description: 'Your input description here'
     required: true
