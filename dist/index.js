@@ -29019,22 +29019,24 @@ async function run() {
     const token = core.getInput('access_token');
     const ms = core.getInput('milliseconds');
     const octokit = github.getOctokit(token);
-    let workflow = payload.workflow_run;
-    console.log('workflow');
-    console.log(workflow);
-    if (!workflow) {
-        const { data: current_run } = await octokit.rest.actions.getWorkflowRun({
-            owner,
-            repo,
-            run_id: Number(process.env.GITHUB_RUN_ID)
-        });
-        console.log('current_run');
-        console.log(current_run);
-        workflow = current_run;
-    }
-    const workflowId = workflow.head_repository.id;
+    const { data: current_run } = await octokit.rest.actions.getWorkflowRun({
+        owner,
+        repo,
+        run_id: Number(process.env.GITHUB_RUN_ID)
+    });
+    console.log('current_run');
+    console.log(current_run);
+    const workflow_id = current_run.workflow_id;
+    const { data } = await octokit.rest.actions.listWorkflowRuns({
+        per_page: 100,
+        workflow_id,
+        owner,
+        repo
+    });
+    console.log(data.total_count);
+    console.log(data.workflow_runs);
     console.info('PRINTING...');
-    console.info('workflowId', workflowId);
+    console.info('workflow_id', workflow_id);
     console.info(process.env.GITHUB_WORKFLOW);
     console.info(process.env.GITHUB_WORKFLOW_REF);
     console.info(process.env.GITHUB_WORKFLOW_SHA);
