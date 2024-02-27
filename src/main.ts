@@ -6,9 +6,11 @@ import { wait } from './wait'
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 export async function run(): Promise<void> {
+  console.info('PRINTING...')
   console.info(process.env.GITHUB_WORKFLOW!)
   console.info(process.env.GITHUB_WORKFLOW_REF!)
   console.info(process.env.GITHUB_WORKFLOW_SHA!)
+  console.info('PRINTED!')
 
   try {
     const ms: string = core.getInput('milliseconds')
